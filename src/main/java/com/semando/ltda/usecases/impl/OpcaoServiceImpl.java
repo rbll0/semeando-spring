@@ -29,13 +29,12 @@ public class OpcaoServiceImpl implements OpcaoService {
     public OpcaoResponse criarOpcao(OpcaoRequest request) {
         Opcao opcao = new Opcao();
 
-
         Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
                 .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
         opcao.setPergunta(pergunta);
 
         opcao.setTexto(request.getTexto());
-        opcao.setOpCorreta(request.getCorreta());  // Ajuste aqui
+        opcao.setOpCorreta(request.getCorreta());
         opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
@@ -48,12 +47,11 @@ public class OpcaoServiceImpl implements OpcaoService {
                 .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + opcaoId));
 
         opcao.setTexto(request.getTexto());
-        opcao.setOpCorreta(request.getCorreta()); // Certifique-se de usar o nome correto do campo
+        opcao.setOpCorreta(request.getCorreta());
 
         opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
-
 
     @Override
     public OpcaoResponse buscarOpcaoPorId(Integer idOpcao, Long idPergunta) {
@@ -83,11 +81,10 @@ public class OpcaoServiceImpl implements OpcaoService {
 
     @Override
     public void deletarOpcao(Integer idOpcao, Long idPergunta) {
-        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta); // Cria a chave composta
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
 
         opcaoRepository.deleteById(opcaoId);
     }
-
 
     private OpcaoResponse mapToResponse(Opcao opcao) {
         OpcaoResponse response = new OpcaoResponse();

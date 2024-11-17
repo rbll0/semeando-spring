@@ -1,6 +1,7 @@
 package com.semando.ltda.usecases.impl;
 
 import com.semando.ltda.domains.Usuario;
+import com.semando.ltda.gateways.procedures.UsuarioProcedures;
 import com.semando.ltda.gateways.repositories.UsuarioRepository;
 import com.semando.ltda.gateways.requests.UsuarioRequest;
 import com.semando.ltda.gateways.responses.UsuarioResponse;
@@ -31,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 request.getBio()
         );
 
-        Usuario usuario = usuarioRepository.findTopByEmail(request.getEmail())
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado após inserção."));
         return mapToResponse(usuario);
     }

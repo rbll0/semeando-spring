@@ -1,5 +1,6 @@
 package com.semando.ltda.domains;
 
+import com.semando.ltda.domains.enums.Ranking;
 import jakarta.persistence.*;
 import lombok.Data;
 
