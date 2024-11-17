@@ -1,5 +1,6 @@
 package com.semando.ltda.domains;
 
+import com.semando.ltda.domains.enums.TipoPergunta;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class Pergunta {
     @Column(nullable = false)
     private String texto;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private TipoPergunta tipoPergunta;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoPergunta tipoPergunta;
 }

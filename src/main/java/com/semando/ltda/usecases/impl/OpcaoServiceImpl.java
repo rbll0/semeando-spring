@@ -1,7 +1,10 @@
 package com.semando.ltda.usecases.impl;
 
 import com.semando.ltda.domains.Opcao;
+import com.semando.ltda.domains.OpcaoId;
+import com.semando.ltda.domains.Pergunta;
 import com.semando.ltda.gateways.repositories.OpcaoRepository;
+import com.semando.ltda.gateways.repositories.PerguntaRepository;
 import com.semando.ltda.gateways.requests.OpcaoRequest;
 import com.semando.ltda.gateways.responses.OpcaoResponse;
 import com.semando.ltda.usecases.interfaces.OpcaoService;
@@ -18,32 +21,47 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class OpcaoServiceImpl implements OpcaoService {
+
     private final OpcaoRepository opcaoRepository;
+    private final PerguntaRepository perguntaRepository;
 
     @Override
     public OpcaoResponse criarOpcao(OpcaoRequest request) {
         Opcao opcao = new Opcao();
-        opcao.setIdPergunta(request.getIdPergunta());
+
+
+        Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
+                .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
+        opcao.setPergunta(pergunta);
+
         opcao.setTexto(request.getTexto());
-        opcao.setCorreta(request.getCorreta());
+        opcao.setOpCorreta(request.getCorreta());  // Ajuste aqui
         opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
 
     @Override
-    public OpcaoResponse atualizarOpcao(Long id, OpcaoRequest request) {
-        Opcao opcao = opcaoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + id));
+    public OpcaoResponse atualizarOpcao(Integer idOpcao, Long idPergunta, OpcaoRequest request) {
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta); // Cria a chave composta
+
+        Opcao opcao = opcaoRepository.findById(opcaoId)
+                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + opcaoId));
+
         opcao.setTexto(request.getTexto());
-        opcao.setCorreta(request.getCorreta());
+        opcao.setOpCorreta(request.getCorreta()); // Certifique-se de usar o nome correto do campo
+
         opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
 
+
     @Override
-    public OpcaoResponse buscarOpcaoPorId(Long id) {
-        Opcao opcao = opcaoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + id));
+    public OpcaoResponse buscarOpcaoPorId(Integer idOpcao, Long idPergunta) {
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
+
+        Opcao opcao = opcaoRepository.findById(opcaoId)
+                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + opcaoId));
+
         return mapToResponse(opcao);
     }
 
@@ -64,16 +82,19 @@ public class OpcaoServiceImpl implements OpcaoService {
     }
 
     @Override
-    public void deletarOpcao(Long id) {
-        opcaoRepository.deleteById(id);
+    public void deletarOpcao(Integer idOpcao, Long idPergunta) {
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta); // Cria a chave composta
+
+        opcaoRepository.deleteById(opcaoId);
     }
+
 
     private OpcaoResponse mapToResponse(Opcao opcao) {
         OpcaoResponse response = new OpcaoResponse();
         response.setIdOpcao(opcao.getIdOpcao());
-        response.setIdPergunta(opcao.getIdPergunta());
+        response.setIdPergunta(opcao.getPergunta().getIdPergunta());
         response.setTexto(opcao.getTexto());
-        response.setCorreta(opcao.getCorreta());
+        response.setCorreta(opcao.getOpCorreta());
         return response;
     }
 }

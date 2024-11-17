@@ -9,7 +9,7 @@ import org.springframework.hateoas.RepresentationModel;
  */
 @Data
 public class OpcaoResponse extends RepresentationModel<OpcaoResponse> {
-    private Long idOpcao;
+    private Integer idOpcao;
     private Long idPergunta;
     private String texto;
     private boolean correta;

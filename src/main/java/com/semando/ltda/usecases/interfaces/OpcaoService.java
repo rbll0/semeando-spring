@@ -12,15 +12,53 @@ import java.util.List;
  */
 @Service
 public interface OpcaoService {
+    /**
+     * Cria uma nova opção.
+     *
+     * @param request dados da opção a ser criada
+     * @return a opção criada como resposta
+     */
     OpcaoResponse criarOpcao(OpcaoRequest request);
 
-    OpcaoResponse atualizarOpcao(Long id, OpcaoRequest request);
+    /**
+     * Atualiza uma opção existente com os dados fornecidos.
+     *
+     * @param idOpcao ID da opção dentro da pergunta
+     * @param idPergunta ID da pergunta associada
+     * @param request dados atualizados da opção
+     * @return a opção atualizada como resposta
+     */
+    OpcaoResponse atualizarOpcao(Integer idOpcao, Long idPergunta, OpcaoRequest request);
 
-    OpcaoResponse buscarOpcaoPorId(Long id);
+    /**
+     * Busca uma opção por seu ID composto.
+     *
+     * @param idOpcao ID da opção dentro da pergunta
+     * @param idPergunta ID da pergunta associada
+     * @return a opção encontrada como resposta
+     */
+    OpcaoResponse buscarOpcaoPorId(Integer idOpcao, Long idPergunta);
 
+    /**
+     * Busca todas as opções cadastradas.
+     *
+     * @return lista de todas as opções como resposta
+     */
     List<OpcaoResponse> buscarOpcoes();
 
-    List<OpcaoResponse> buscarOpcoesPorPergunta(Long perguntaId);
+    /**
+     * Busca todas as opções associadas a uma pergunta específica.
+     *
+     * @param idPergunta ID da pergunta associada
+     * @return lista de opções para a pergunta especificada
+     */
+    List<OpcaoResponse> buscarOpcoesPorPergunta(Long idPergunta);
 
-    void deletarOpcao(Long id);
+    /**
+     * Deleta uma opção por seu ID composto.
+     *
+     * @param idOpcao ID da opção dentro da pergunta
+     * @param idPergunta ID da pergunta associada
+     */
+    void deletarOpcao(Integer idOpcao, Long idPergunta);
 }

@@ -1,6 +1,8 @@
 package com.semando.ltda.usecases.impl;
 
+import com.semando.ltda.domains.Level;
 import com.semando.ltda.domains.Pergunta;
+import com.semando.ltda.gateways.repositories.LevelRepository;
 import com.semando.ltda.gateways.repositories.PerguntaRepository;
 import com.semando.ltda.gateways.requests.PerguntaRequest;
 import com.semando.ltda.gateways.responses.PerguntaResponse;
@@ -15,12 +17,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PerguntaServiceImpl implements PerguntaService {
+
     private final PerguntaRepository perguntaRepository;
+    private final LevelRepository levelRepository;
+
 
     @Override
     public PerguntaResponse criarPergunta(PerguntaRequest request) {
         Pergunta pergunta = new Pergunta();
-        pergunta.setIdLevel(request.getIdLevel());
+        Level level = levelRepository.findById(request.getIdLevel())
+                .orElseThrow(() -> new NoSuchElementException("Level não encontrado com ID: " + request.getIdLevel()));
+
+        pergunta.setLevel(level);
         pergunta.setTexto(request.getTexto());
         pergunta.setTipoPergunta(request.getTipoPergunta());
         pergunta = perguntaRepository.save(pergunta);
@@ -31,7 +39,11 @@ public class PerguntaServiceImpl implements PerguntaService {
     public PerguntaResponse atualizarPergunta(Long id, PerguntaRequest request) {
         Pergunta pergunta = perguntaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + id));
-        pergunta.setIdLevel(request.getIdLevel());
+
+        Level level = levelRepository.findById(request.getIdLevel())
+                .orElseThrow(() -> new NoSuchElementException("Level não encontrado com ID: " + request.getIdLevel()));
+
+        pergunta.setLevel(level);
         pergunta.setTexto(request.getTexto());
         pergunta.setTipoPergunta(request.getTipoPergunta());
         pergunta = perguntaRepository.save(pergunta);
@@ -69,7 +81,7 @@ public class PerguntaServiceImpl implements PerguntaService {
     private PerguntaResponse mapToResponse(Pergunta pergunta) {
         PerguntaResponse response = new PerguntaResponse();
         response.setIdPergunta(pergunta.getIdPergunta());
-        response.setIdLevel(pergunta.getIdLevel());
+        response.setIdLevel(pergunta.getLevel().getIdLevel());
         response.setTexto(pergunta.getTexto());
         response.setTipoPergunta(pergunta.getTipoPergunta());
         return response;

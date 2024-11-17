@@ -1,7 +1,10 @@
 package com.semando.ltda.usecases.impl;
 
-import com.semando.ltda.domains.Resposta;
+import com.semando.ltda.domains.*;
+import com.semando.ltda.gateways.repositories.OpcaoRepository;
+import com.semando.ltda.gateways.repositories.PerguntaRepository;
 import com.semando.ltda.gateways.repositories.RespostaRepository;
+import com.semando.ltda.gateways.repositories.UsuarioRepository;
 import com.semando.ltda.gateways.requests.RespostaRequest;
 import com.semando.ltda.gateways.responses.RespostaResponse;
 import com.semando.ltda.usecases.interfaces.RespostaService;
@@ -17,13 +20,24 @@ import java.util.stream.Collectors;
 public class RespostaServiceImpl implements RespostaService {
 
     private final RespostaRepository respostaRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PerguntaRepository perguntaRepository;
+    private final OpcaoRepository opcaoRepository;
 
     @Override
     public RespostaResponse criarResposta(RespostaRequest request) {
+
+        Usuario usuario = usuarioRepository.findById(request.getIdUsuario())
+                .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com ID: " + request.getIdUsuario()));
+        Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
+                .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
+        Opcao opcaoEscolhida = opcaoRepository.findById(new OpcaoId(request.getIdPergunta(), request.getIdOpcaoEscolhida()))
+                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + request.getIdOpcaoEscolhida()));
+
         Resposta resposta = new Resposta();
-        resposta.setIdUsuario(request.getIdUsuario());
-        resposta.setIdPergunta(request.getIdPergunta());
-        resposta.setIdOpcaoEscolhida(request.getIdOpcaoEscolhida());
+        resposta.setUsuario(usuario);
+        resposta.setPergunta(pergunta);
+        resposta.setOpcaoEscolhida(opcaoEscolhida);
         resposta = respostaRepository.save(resposta);
         return mapToResponse(resposta);
     }
