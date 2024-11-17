@@ -1,6 +1,7 @@
 package com.semando.ltda.domains;
 
 
+import com.semando.ltda.domains.enums.Dificuldade;
 import jakarta.persistence.*;
 import lombok.Data;
 
