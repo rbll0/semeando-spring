@@ -1,7 +1,9 @@
 package com.semando.ltda.gateways.controllers;
 
 
+import com.semando.ltda.gateways.requests.UsuarioRequest;
 import com.semando.ltda.gateways.responses.UsuarioResponse;
+import com.semando.ltda.usecases.interfaces.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
@@ -21,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController {
 
-    //private final UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     /**
      * Endpoint para criar um novo usuário.
