@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OpcaoRepository extends JpaRepository<Opcao, OpcaoId> {
     // Método customizado para buscar opções por pergunta (idPergunta)
-    List<Opcao> findByPerguntaId(Long perguntaId);
+    List<Opcao> findByPergunta_IdPergunta(Long idPergunta);
+
 
 }

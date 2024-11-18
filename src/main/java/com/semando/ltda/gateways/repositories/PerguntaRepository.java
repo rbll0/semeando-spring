@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
     // Método customizado para buscar perguntas por nível (idLevel)
-    List<Pergunta> findByLevelId(Long levelId);
+    List<Pergunta> findByLevelIdLevel(Long idLevel);
+
 }

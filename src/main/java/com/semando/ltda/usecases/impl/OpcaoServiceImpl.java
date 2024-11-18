@@ -28,11 +28,9 @@ public class OpcaoServiceImpl implements OpcaoService {
     @Override
     public OpcaoResponse criarOpcao(OpcaoRequest request) {
         Opcao opcao = new Opcao();
-
         Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
                 .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
         opcao.setPergunta(pergunta);
-
         opcao.setTexto(request.getTexto());
         opcao.setOpCorreta(request.getCorreta());
         opcao = opcaoRepository.save(opcao);
@@ -73,7 +71,7 @@ public class OpcaoServiceImpl implements OpcaoService {
 
     @Override
     public List<OpcaoResponse> buscarOpcoesPorPergunta(Long perguntaId) {
-        return opcaoRepository.findByPerguntaId(perguntaId)
+        return opcaoRepository.findByPergunta_IdPergunta(perguntaId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -88,8 +86,8 @@ public class OpcaoServiceImpl implements OpcaoService {
 
     private OpcaoResponse mapToResponse(Opcao opcao) {
         OpcaoResponse response = new OpcaoResponse();
-        response.setIdOpcao(opcao.getIdOpcao());
-        response.setIdPergunta(opcao.getPergunta().getIdPergunta());
+        response.setIdOpcao(opcao.getId().getIdOpcao());
+        response.setIdPergunta(opcao.getId().getIdPergunta());
         response.setTexto(opcao.getTexto());
         response.setCorreta(opcao.getOpCorreta());
         return response;

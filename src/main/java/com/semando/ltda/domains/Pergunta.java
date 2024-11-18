@@ -11,6 +11,7 @@ public class Pergunta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pergunta")
     private Long idPergunta;
 
     @ManyToOne
@@ -21,6 +22,6 @@ public class Pergunta {
     private String texto;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "tipo_pergunta", nullable = false)
     private TipoPergunta tipoPergunta;
 }

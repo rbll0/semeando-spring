@@ -29,24 +29,29 @@ public class RespostaServiceImpl implements RespostaService {
 
         Usuario usuario = usuarioRepository.findById(request.getIdUsuario())
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com ID: " + request.getIdUsuario()));
+
         Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
                 .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
-        Opcao opcaoEscolhida = opcaoRepository.findById(new OpcaoId(request.getIdPergunta(), request.getIdOpcaoEscolhida()))
+
+        OpcaoId opcaoId = new OpcaoId(request.getIdOpcaoEscolhida().intValue(), request.getIdPergunta());  // Certifique-se de que idOpcao seja Integer
+        Opcao opcaoEscolhida = opcaoRepository.findById(opcaoId)
                 .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + request.getIdOpcaoEscolhida()));
 
         Resposta resposta = new Resposta();
         resposta.setUsuario(usuario);
         resposta.setPergunta(pergunta);
-        resposta.setOpcaoEscolhida(opcaoEscolhida);
+        resposta.setOpEscolhida(opcaoEscolhida);
+
         resposta = respostaRepository.save(resposta);
         return mapToResponse(resposta);
     }
+
 
     @Override
     public RespostaResponse atualizarResposta(Long id, RespostaRequest request) {
         Resposta resposta = respostaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Resposta não encontrada com ID: " + id));
-        resposta.setIdOpcaoEscolhida(request.getIdOpcaoEscolhida());
+        resposta.setIdResposta(request.getIdOpcaoEscolhida());
         resposta = respostaRepository.save(resposta);
         return mapToResponse(resposta);
     }
@@ -68,7 +73,7 @@ public class RespostaServiceImpl implements RespostaService {
 
     @Override
     public List<RespostaResponse> buscarRespostasPorUsuario(Long usuarioId) {
-        return respostaRepository.findByUsuarioId(usuarioId)
+        return respostaRepository.findByUsuario_IdUsuario(usuarioId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -82,9 +87,12 @@ public class RespostaServiceImpl implements RespostaService {
     private RespostaResponse mapToResponse(Resposta resposta) {
         RespostaResponse response = new RespostaResponse();
         response.setIdResposta(resposta.getIdResposta());
-        response.setIdUsuario(resposta.getIdUsuario());
-        response.setIdPergunta(resposta.getIdPergunta());
-        response.setIdOpcaoEscolhida(resposta.getIdOpcaoEscolhida());
+        response.setIdUsuario(resposta.getUsuario().getIdUsuario());
+        response.setIdPergunta(resposta.getPergunta().getIdPergunta());
+
+        // Acessa idOpcao através da chave composta OpcaoId
+        response.setIdOpcaoEscolhida(resposta.getOpEscolhida().getId().getIdOpcao().longValue());
+
         return response;
     }
 }

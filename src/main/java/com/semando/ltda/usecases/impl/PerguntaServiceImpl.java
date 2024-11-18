@@ -67,7 +67,7 @@ public class PerguntaServiceImpl implements PerguntaService {
 
     @Override
     public List<PerguntaResponse> buscarPerguntasPorLevel(Long levelId) {
-        return perguntaRepository.findByLevelId(levelId)
+        return perguntaRepository.findByLevelIdLevel(levelId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());

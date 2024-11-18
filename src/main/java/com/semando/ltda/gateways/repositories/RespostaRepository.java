@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface RespostaRepository extends JpaRepository<Resposta, Long> {
     // Método customizado para buscar respostas por usuário (idUsuario)
-    List<Resposta> findByUsuarioId(Long usuarioId);
+    List<Resposta> findByUsuario_IdUsuario(Long idUsuario);
+
 
     // Método customizado para buscar respostas por pergunta (idPergunta)
-    List<Resposta> findByPerguntaId(Long perguntaId);
+    List<Resposta> findByPerguntaIdPergunta(Long idPergunta);
 }

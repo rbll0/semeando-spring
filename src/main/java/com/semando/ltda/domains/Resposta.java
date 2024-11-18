@@ -16,10 +16,15 @@ public class Resposta {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
+    // Use `insertable = false, updatable = false` aqui para evitar duplicação
     @ManyToOne
-    @JoinColumn(name = "id_pergunta", nullable = false)
+    @JoinColumn(name = "id_pergunta", nullable = false, insertable = false, updatable = false)
     private Pergunta pergunta;
 
-    @Column(name = "op_escolhida", nullable = false)
-    private Integer opEscolhida;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "id_opcao", referencedColumnName = "id_opcao"),
+            @JoinColumn(name = "id_pergunta", referencedColumnName = "id_pergunta")
+    })
+    private Opcao opEscolhida;
 }

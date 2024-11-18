@@ -18,9 +18,10 @@ public class UsuarioProcedures {
         jdbcTemplate.update(sql, nomeUsuario, email, ranking, bio);
     }
 
-    public void atualizarUsuario(Long idUsuario, String nomeUsuario, String email, String ranking, String bio) {
-        String sql = "{call atualizar_usuario(?, ?, ?, ?, ?)}";
-        jdbcTemplate.update(sql, idUsuario, nomeUsuario, email, ranking, bio);
+    public void atualizarUsuario(Long idUsuario, String nomeUsuario, String email, String ranking, int streak, String bio) {
+        // Atualizado para incluir o parâmetro `streak`
+        String sql = "{call atualizar_usuario(?, ?, ?, ?, ?, ?)}";
+        jdbcTemplate.update(sql, idUsuario, nomeUsuario, email, ranking, streak, bio);
     }
 
     public void deletarUsuario(Long idUsuario) {

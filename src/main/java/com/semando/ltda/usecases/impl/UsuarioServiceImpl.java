@@ -44,6 +44,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 request.getNomeUsuario(),
                 request.getEmail(),
                 request.getRanking().toString(),
+                request.getStreak(),
                 request.getBio()
         );
 
