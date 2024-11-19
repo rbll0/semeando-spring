@@ -1,6 +1,7 @@
 package com.semando.ltda.usecases.impl;
 
 import com.semando.ltda.domains.Level;
+import com.semando.ltda.gateways.procedures.LevelProcedures;
 import com.semando.ltda.gateways.repositories.LevelRepository;
 import com.semando.ltda.gateways.requests.LevelRequest;
 import com.semando.ltda.gateways.responses.LevelResponse;
@@ -20,30 +21,47 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LevelServiceImpl implements LevelService {
     private final LevelRepository levelRepository;
+    private final LevelProcedures levelProcedures;
 
     @Override
     public LevelResponse criarLevel(LevelRequest request) {
-        Level level = new Level();
-        level.setTitulo(request.getTitulo());
-        level.setDescricao(request.getDescricao());
-        level.setDificuldade(request.getDificuldade());
-        level = levelRepository.save(level);
+        // Chamada à procedure para inserir level
+        levelProcedures.inserirLevel(
+                request.getTitulo(),
+                request.getDescricao(),
+                request.getDificuldade().name()
+        );
+
+        // Buscar o level recém-criado para retornar no response
+        Level level = levelRepository.findTopByTituloOrderByIdLevelDesc(request.getTitulo())
+                .orElseThrow(() -> new NoSuchElementException("Nível não encontrado após inserção."));
+
         return mapToResponse(level);
     }
 
     @Override
     public LevelResponse atualizarLevel(Long id, LevelRequest request) {
+        // Chamada à procedure para atualizar level
+        levelProcedures.atualizarLevel(
+                id,
+                request.getTitulo(),
+                request.getDescricao(),
+                request.getDificuldade().name()
+        );
+
+        // Buscar o level atualizado para retornar no response
         Level level = levelRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Nível não encontrado com ID: " + id));
-        level.setTitulo(request.getTitulo());
-        level.setDescricao(request.getDescricao());
-        level.setDificuldade(request.getDificuldade());
-        level = levelRepository.save(level);
+
         return mapToResponse(level);
     }
 
     @Override
     public void deletarLevel(Long id) {
+        // Chamada à procedure para deletar level
+        levelProcedures.deletarLevel(id);
+
+        // Deletar o level no repositório para consistência
         levelRepository.deleteById(id);
     }
 
