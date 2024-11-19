@@ -14,5 +14,5 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
 
     List<Pergunta> findByLevel_IdLevel(Long idLevel);
 
-    Page<Pergunta> findAll(Pageable pageable);
+    Page<Pergunta> findByLevel_IdLevel(Long idLevel, Pageable pageable);
 }

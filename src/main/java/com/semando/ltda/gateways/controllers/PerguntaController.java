@@ -5,6 +5,9 @@ import com.semando.ltda.gateways.responses.PerguntaResponse;
 import com.semando.ltda.usecases.interfaces.PerguntaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -76,6 +79,14 @@ public class PerguntaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/paginadas")
+    public ResponseEntity<Page<PerguntaResponse>> buscarPerguntasPaginadas(
+            @PageableDefault(size = 10) Pageable pageable) {
+        Page<PerguntaResponse> response = perguntaService.buscarPerguntasPaginadas(pageable);
+        response.forEach(this::addHateoasLinks);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     /**
      * Endpoint para buscar perguntas associadas a um nível específico.
      *
@@ -85,6 +96,15 @@ public class PerguntaController {
     @GetMapping("/level/{levelId}")
     public ResponseEntity<List<PerguntaResponse>> buscarPerguntasPorLevel(@PathVariable Long levelId) {
         List<PerguntaResponse> response = perguntaService.buscarPerguntasPorLevel(levelId);
+        response.forEach(this::addHateoasLinks);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/level/{levelId}/paginadas")
+    public ResponseEntity<Page<PerguntaResponse>> buscarPerguntasPorLevelPaginadas(
+            @PathVariable Long levelId,
+            @PageableDefault(size = 10) Pageable pageable) {
+        Page<PerguntaResponse> response = perguntaService.buscarPerguntasPorLevelPaginadas(levelId, pageable);
         response.forEach(this::addHateoasLinks);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

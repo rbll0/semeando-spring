@@ -9,6 +9,8 @@ import com.semando.ltda.gateways.requests.PerguntaRequest;
 import com.semando.ltda.gateways.responses.PerguntaResponse;
 import com.semando.ltda.usecases.interfaces.PerguntaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,11 +73,23 @@ public class PerguntaServiceImpl implements PerguntaService {
     }
 
     @Override
+    public Page<PerguntaResponse> buscarPerguntasPaginadas(Pageable pageable) {
+        return perguntaRepository.findAll(pageable)
+                .map(this::mapToResponse);
+    }
+
+    @Override
     public List<PerguntaResponse> buscarPerguntasPorLevel(Long levelId) {
         return perguntaRepository.findByLevel_IdLevel(levelId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<PerguntaResponse> buscarPerguntasPorLevelPaginadas(Long levelId, Pageable pageable) {
+        return perguntaRepository.findByLevel_IdLevel(levelId, pageable)
+                .map(this::mapToResponse);
     }
 
     @Override
