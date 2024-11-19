@@ -9,6 +9,8 @@ import com.semando.ltda.gateways.requests.OpcaoRequest;
 import com.semando.ltda.gateways.responses.OpcaoResponse;
 import com.semando.ltda.usecases.interfaces.OpcaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -82,6 +84,12 @@ public class OpcaoServiceImpl implements OpcaoService {
         OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
 
         opcaoRepository.deleteById(opcaoId);
+    }
+
+    @Override
+    public Page<OpcaoResponse> buscarOpcoesPorPerguntaPaginadas(Long idPergunta, Pageable pageable) {
+        return opcaoRepository.findByPergunta_IdPergunta(idPergunta, pageable)
+                .map(this::mapToResponse);
     }
 
     private OpcaoResponse mapToResponse(Opcao opcao) {

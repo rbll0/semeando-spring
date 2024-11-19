@@ -11,5 +11,6 @@ import java.util.List;
 public interface OpcaoRepository extends JpaRepository<Opcao, OpcaoId> {
     List<Opcao> findByPergunta_IdPergunta(Long idPergunta);
 
-    Page<Opcao> findAll(Pageable pageable);
+    // Busca opções associadas a uma pergunta específica com suporte a paginação
+    Page<Opcao> findByPergunta_IdPergunta(Long idPergunta, Pageable pageable);
 }

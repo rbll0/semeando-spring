@@ -5,6 +5,8 @@ import com.semando.ltda.gateways.responses.OpcaoResponse;
 import com.semando.ltda.usecases.interfaces.OpcaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -66,6 +68,22 @@ public class OpcaoController {
     public ResponseEntity<List<OpcaoResponse>> buscarOpcoesPorPergunta(@PathVariable Long perguntaId) {
         List<OpcaoResponse> response = opcaoService.buscarOpcoesPorPergunta(perguntaId);
         response.forEach(this::addHateoasLinks);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    /**
+     * Endpoint para buscar opções associadas a uma pergunta específica com suporte a paginação.
+     *
+     * @param idPergunta ID da pergunta associada
+     * @param pageable parâmetros de paginação
+     * @return página de opções
+     */
+    @GetMapping("/pergunta/{idPergunta}/paginadas")
+    public ResponseEntity<Page<OpcaoResponse>> buscarOpcoesPorPerguntaPaginadas(
+            @PathVariable("idPergunta") Long idPergunta,
+            Pageable pageable) {
+        Page<OpcaoResponse> response = opcaoService.buscarOpcoesPorPerguntaPaginadas(idPergunta, pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -2,6 +2,8 @@ package com.semando.ltda.usecases.interfaces;
 
 import com.semando.ltda.gateways.requests.OpcaoRequest;
 import com.semando.ltda.gateways.responses.OpcaoResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +55,16 @@ public interface OpcaoService {
      * @return lista de opções para a pergunta especificada
      */
     List<OpcaoResponse> buscarOpcoesPorPergunta(Long idPergunta);
+
+
+    /**
+     * Busca as opções associadas a uma pergunta específica com suporte a paginação.
+     *
+     * @param idPergunta ID da pergunta associada
+     * @param pageable parâmetros de paginação
+     * @return página de opções para a pergunta especificada
+     */
+    Page<OpcaoResponse> buscarOpcoesPorPerguntaPaginadas(Long idPergunta, Pageable pageable);
 
     /**
      * Deleta uma opção por seu ID composto.
