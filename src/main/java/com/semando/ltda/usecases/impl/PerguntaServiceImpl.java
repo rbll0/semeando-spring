@@ -1,7 +1,8 @@
 package com.semando.ltda.usecases.impl;
 
-import com.semando.ltda.domains.Level;
+
 import com.semando.ltda.domains.Pergunta;
+import com.semando.ltda.gateways.procedures.PerguntaProcedures;
 import com.semando.ltda.gateways.repositories.LevelRepository;
 import com.semando.ltda.gateways.repositories.PerguntaRepository;
 import com.semando.ltda.gateways.requests.PerguntaRequest;
@@ -19,34 +20,38 @@ import java.util.stream.Collectors;
 public class PerguntaServiceImpl implements PerguntaService {
 
     private final PerguntaRepository perguntaRepository;
-    private final LevelRepository levelRepository;
-
+    private final PerguntaProcedures perguntaProcedures;
 
     @Override
     public PerguntaResponse criarPergunta(PerguntaRequest request) {
-        Pergunta pergunta = new Pergunta();
-        Level level = levelRepository.findById(request.getIdLevel())
-                .orElseThrow(() -> new NoSuchElementException("Level não encontrado com ID: " + request.getIdLevel()));
+        // Chama a procedure para inserir a pergunta
+        perguntaProcedures.inserirPergunta(
+                request.getIdLevel(),
+                request.getTexto(),
+                request.getTipoPergunta().toString()
+        );
 
-        pergunta.setLevel(level);
-        pergunta.setTexto(request.getTexto());
-        pergunta.setTipoPergunta(request.getTipoPergunta());
-        pergunta = perguntaRepository.save(pergunta);
+        // Busca a pergunta inserida para retornar no response
+        Pergunta pergunta = perguntaRepository.findTopByLevel_IdLevelAndTextoOrderByIdPerguntaDesc(
+                request.getIdLevel(),
+                request.getTexto()
+        ).orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada após inserção."));
         return mapToResponse(pergunta);
     }
 
     @Override
     public PerguntaResponse atualizarPergunta(Long id, PerguntaRequest request) {
+        // Chama a procedure para atualizar a pergunta
+        perguntaProcedures.atualizarPergunta(
+                id,
+                request.getIdLevel(),
+                request.getTexto(),
+                request.getTipoPergunta().toString()
+        );
+
+        // Busca a pergunta atualizada para retornar no response
         Pergunta pergunta = perguntaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + id));
-
-        Level level = levelRepository.findById(request.getIdLevel())
-                .orElseThrow(() -> new NoSuchElementException("Level não encontrado com ID: " + request.getIdLevel()));
-
-        pergunta.setLevel(level);
-        pergunta.setTexto(request.getTexto());
-        pergunta.setTipoPergunta(request.getTipoPergunta());
-        pergunta = perguntaRepository.save(pergunta);
         return mapToResponse(pergunta);
     }
 
@@ -67,7 +72,7 @@ public class PerguntaServiceImpl implements PerguntaService {
 
     @Override
     public List<PerguntaResponse> buscarPerguntasPorLevel(Long levelId) {
-        return perguntaRepository.findByLevelIdLevel(levelId)
+        return perguntaRepository.findByLevel_IdLevel(levelId)
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -75,6 +80,10 @@ public class PerguntaServiceImpl implements PerguntaService {
 
     @Override
     public void deletarPergunta(Long id) {
+        // Chama a procedure para deletar a pergunta
+        perguntaProcedures.deletarPergunta(id);
+
+        // Deleta a pergunta do repositório para manter consistência
         perguntaRepository.deleteById(id);
     }
 

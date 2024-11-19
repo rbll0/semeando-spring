@@ -4,9 +4,11 @@ import com.semando.ltda.domains.Pergunta;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
-    // Método customizado para buscar perguntas por nível (idLevel)
-    List<Pergunta> findByLevelIdLevel(Long idLevel);
 
+    Optional<Pergunta> findTopByLevel_IdLevelAndTextoOrderByIdPerguntaDesc(Long idLevel, String texto);
+
+    List<Pergunta> findByLevel_IdLevel(Long idLevel);
 }
