@@ -3,6 +3,7 @@ package com.semando.ltda.usecases.impl;
 import com.semando.ltda.domains.Opcao;
 import com.semando.ltda.domains.OpcaoId;
 import com.semando.ltda.domains.Pergunta;
+import com.semando.ltda.gateways.procedures.OpcaoProcedures;
 import com.semando.ltda.gateways.repositories.OpcaoRepository;
 import com.semando.ltda.gateways.repositories.PerguntaRepository;
 import com.semando.ltda.gateways.requests.OpcaoRequest;
@@ -23,33 +24,50 @@ import java.util.stream.Collectors;
 public class OpcaoServiceImpl implements OpcaoService {
 
     private final OpcaoRepository opcaoRepository;
-    private final PerguntaRepository perguntaRepository;
+    private final OpcaoProcedures opcaoProcedures;
 
     @Override
     public OpcaoResponse criarOpcao(OpcaoRequest request) {
-        Opcao opcao = new Opcao();
-        Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
-                .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
-        opcao.setPergunta(pergunta);
-        opcao.setTexto(request.getTexto());
-        opcao.setOpCorreta(request.getCorreta());
-        opcao = opcaoRepository.save(opcao);
+        // Converte o campo correta (Boolean) para char ('S' ou 'N')
+        char corretaChar = request.getCorreta() ? 'S' : 'N';
+
+        // Chama a procedure para inserir a opção
+        opcaoProcedures.inserirOpcao(
+                request.getIdPergunta(),
+                request.getIdOpcao(),
+                request.getTexto(),
+                corretaChar
+        );
+
+        // Busca a opção recém-criada
+        OpcaoId opcaoId = new OpcaoId(request.getIdOpcao(), request.getIdPergunta());
+        Opcao opcao = opcaoRepository.findById(opcaoId)
+                .orElseThrow(() -> new NoSuchElementException("Opção não encontrada após inserção com ID: " + opcaoId));
+
         return mapToResponse(opcao);
     }
 
     @Override
     public OpcaoResponse atualizarOpcao(Integer idOpcao, Long idPergunta, OpcaoRequest request) {
-        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta); // Cria a chave composta
+        // Converte o campo correta (Boolean) para char ('S' ou 'N')
+        char corretaChar = request.getCorreta() ? 'S' : 'N';
 
+        // Chama a procedure para atualizar a opção
+        opcaoProcedures.atualizarOpcao(
+                idPergunta,
+                idOpcao,
+                request.getTexto(),
+                corretaChar
+        );
+
+        // Busca a opção atualizada
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
         Opcao opcao = opcaoRepository.findById(opcaoId)
                 .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + opcaoId));
 
-        opcao.setTexto(request.getTexto());
-        opcao.setOpCorreta(request.getCorreta());
-
-        opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
+
 
     @Override
     public OpcaoResponse buscarOpcaoPorId(Integer idOpcao, Long idPergunta) {
@@ -79,8 +97,11 @@ public class OpcaoServiceImpl implements OpcaoService {
 
     @Override
     public void deletarOpcao(Integer idOpcao, Long idPergunta) {
-        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
+        // Chama a procedure para deletar a opção
+        opcaoProcedures.deletarOpcao(idPergunta, idOpcao);
 
+        // Remove do repositório para manter consistência
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
         opcaoRepository.deleteById(opcaoId);
     }
 

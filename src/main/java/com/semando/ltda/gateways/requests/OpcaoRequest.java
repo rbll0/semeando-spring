@@ -13,6 +13,9 @@ public class OpcaoRequest {
     @NotNull
     private Long idPergunta;
 
+    @NotNull
+    private Integer idOpcao;
+
     @NotBlank
     private String texto;
 
