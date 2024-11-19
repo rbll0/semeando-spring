@@ -18,9 +18,9 @@ public class RespostaProcedures {
         jdbcTemplate.update(sql, idUsuario, idPergunta, idOpcaoEscolhida);
     }
 
-    public void atualizarResposta(Long idResposta, int idOpcaoEscolhida) {
-        String sql = "{call atualizar_resposta(?, ?)}";
-        jdbcTemplate.update(sql, idResposta, idOpcaoEscolhida);
+    public void atualizarResposta(Long idResposta, Long idUsuario, Long idPergunta, int idOpcaoEscolhida) {
+        String sql = "{call atualizar_resposta(?, ?, ?, ?)}";
+        jdbcTemplate.update(sql, idResposta, idUsuario, idPergunta, idOpcaoEscolhida);
     }
 
     public void deletarResposta(Long idResposta) {

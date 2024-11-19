@@ -15,5 +15,5 @@ package com.semando.ltda.domains.enums;
  */
 
 public enum Dificuldade {
-    FACIL, MEDIO, DIFICIL
+    Facil, Medio, Dificil
 }
