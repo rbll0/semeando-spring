@@ -2,6 +2,8 @@ package com.semando.ltda.usecases.interfaces;
 
 import com.semando.ltda.gateways.requests.LevelRequest;
 import com.semando.ltda.gateways.responses.LevelResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +22,8 @@ public interface LevelService {
 
     List<LevelResponse> buscarLevels();
 
+    Page<LevelResponse> buscarLevelsPaginados(Pageable pageable);
+
     void deletarLevel(Long id);
+
 }

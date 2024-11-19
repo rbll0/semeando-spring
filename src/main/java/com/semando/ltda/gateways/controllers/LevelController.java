@@ -5,6 +5,8 @@ import com.semando.ltda.gateways.responses.LevelResponse;
 import com.semando.ltda.usecases.interfaces.LevelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -73,6 +75,18 @@ public class LevelController {
     public ResponseEntity<List<LevelResponse>> buscarLevels() {
         List<LevelResponse> response = levelService.buscarLevels();
         response.forEach(this::addHateoasLinks);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Endpoint para buscar níveis com suporte a paginação.
+     *
+     * @param pageable parâmetros de paginação
+     * @return página de níveis
+     */
+    @GetMapping("/paginados")
+    public ResponseEntity<Page<LevelResponse>> buscarLevelsPaginados(Pageable pageable) {
+        Page<LevelResponse> response = levelService.buscarLevelsPaginados(pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

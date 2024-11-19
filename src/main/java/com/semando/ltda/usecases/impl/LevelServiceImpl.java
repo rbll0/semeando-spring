@@ -7,6 +7,8 @@ import com.semando.ltda.gateways.requests.LevelRequest;
 import com.semando.ltda.gateways.responses.LevelResponse;
 import com.semando.ltda.usecases.interfaces.LevelService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,6 +80,12 @@ public class LevelServiceImpl implements LevelService {
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<LevelResponse> buscarLevelsPaginados(Pageable pageable) {
+        return levelRepository.findAll(pageable)
+                .map(this::mapToResponse);
     }
 
     private LevelResponse mapToResponse(Level level) {
