@@ -30,22 +30,36 @@ public class OpcaoServiceImpl implements OpcaoService {
     @Override
     public OpcaoResponse criarOpcao(OpcaoRequest request) {
         Opcao opcao = new Opcao();
-        Pergunta pergunta = perguntaRepository.findById(request.getIdPergunta())
-                .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getIdPergunta()));
+
+        // Construir o ID composto usando o objeto "id" do request
+        OpcaoId opcaoId = new OpcaoId(
+                request.getId().getIdOpcao(),
+                request.getId().getIdPergunta()
+        );
+        opcao.setId(opcaoId);
+
+        // Buscar a pergunta associada
+        Pergunta pergunta = perguntaRepository.findById(request.getId().getIdPergunta())
+                .orElseThrow(() -> new NoSuchElementException("Pergunta não encontrada com ID: " + request.getId().getIdPergunta()));
         opcao.setPergunta(pergunta);
+
+        // Configurar os outros atributos da opção
         opcao.setTexto(request.getTexto());
         opcao.setOpCorreta(request.getCorreta());
+
+        // Salvar a opção e mapear a resposta
         opcao = opcaoRepository.save(opcao);
         return mapToResponse(opcao);
     }
 
     @Override
     public OpcaoResponse atualizarOpcao(Integer idOpcao, Long idPergunta, OpcaoRequest request) {
-        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta); // Cria a chave composta
+        OpcaoId opcaoId = new OpcaoId(idOpcao, idPergunta);
 
         Opcao opcao = opcaoRepository.findById(opcaoId)
                 .orElseThrow(() -> new NoSuchElementException("Opção não encontrada com ID: " + opcaoId));
 
+        // Atualizar os campos da opção
         opcao.setTexto(request.getTexto());
         opcao.setOpCorreta(request.getCorreta());
 

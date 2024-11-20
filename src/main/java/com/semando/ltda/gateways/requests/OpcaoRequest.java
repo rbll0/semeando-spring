@@ -1,5 +1,6 @@
 package com.semando.ltda.gateways.requests;
 
+import com.semando.ltda.domains.OpcaoId;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,15 +11,14 @@ import lombok.Data;
  */
 @Data
 public class OpcaoRequest {
-    @NotNull
-    private Long idPergunta;
 
     @NotNull
-    private Integer idOpcao;
+    private OpcaoId id;
 
     @NotBlank
     private String texto;
 
     @NotNull
     private Boolean correta;
+
 }
