@@ -135,18 +135,37 @@ volumes:
    ```
 --------------------------------------------
 
-### 5. Deploy em Nuvem
+### 5.☁️ Deploy na Nuvem
 
-O deploy foi realizado na **Azure** utilizando uma máquina virtual Linux configurada com Docker.
+A imagem Docker da aplicação **Semeando 🌱** já está publicada no **Docker Hub** e pode ser utilizada diretamente em qualquer ambiente configurado com Docker.
 
-#### Informações de Acesso
+Link no DockerHub: [https://hub.docker.com/r/whodatgu/semeando-backend](https://hub.docker.com/r/whodatgu/semeando-backend)
 
-- **URL da aplicação**: [http://<SEU_IP_AZURE>:8080](http://<SEU_IP_AZURE>:8080)
-- **Swagger UI**: [http://<SEU_IP_AZURE>:8080/swagger-ui.html](http://<SEU_IP_AZURE>:8080/swagger-ui.html)
+#### 1. Pré-requisitos
 
-#### Credenciais do Banco de Dados
-- **Usuário**: `seu-usuario`
-- **Senha**: `sua-senha`
+-   Docker instalado no ambiente (local ou nuvem).
+-   Acesso à internet para puxar a imagem do Docker Hub.
+
+#### 2. Puxando a Imagem do Docker Hub
+
+Para utilizar a aplicação, basta executar o comando abaixo para puxar a imagem:
+
+```bash
+docker pull whodatgu/semeando-backend
+```
+#### 3. Executando o Container
+
+Execute o container utilizando o comando:
+```bash
+docker run -d -p 8080:8080 --name semeando-backend whodatgu/semeando-backend:latest
+```
+- Porta 8080:8080 é a porta padrão da aplicação.
+
+#### 4. Acessando a Aplicação
+Após executar o container, a aplicação estará acessível pelo endereço:
+```bash
+http://<ip-da-vm-ou-local>:8080
+```
 
 --------------------------------------------
 ### 6. Documentação da API
