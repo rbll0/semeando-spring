@@ -29,13 +29,33 @@
 					"response": []
 				},
 				{
+					"name": "UserPorId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/usuarios/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CreateUser",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nomeUsuario\": \"João Silva\",\n  \"email\": \"joao.silva@example.com\",\n  \"senha\": \"senhaSegura123\",\n  \"ranking\": \"A\"\n}",
+							"raw": "{\n  \"nomeUsuario\": \"Carlos Eduardo Pereira\",\n  \"email\": \"carlos.pereira@gmail.com\",\n  \"senha\": \"Carlos2024!\",\n  \"ranking\": \"A\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -57,33 +77,13 @@
 					"response": []
 				},
 				{
-					"name": "UserPorId",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/usuarios/11",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"usuarios",
-								"11"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
+					"name": "PutUser",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nomeUsuario\": \"João Atualizado\",\n  \"email\": \"joao.atualizado@example.com\",\n  \"ranking\": \"B\",\n  \"streak\": 10,\n  \"bio\": \"Bio atualizada para João.\"\n}\n",
+							"raw": "{\n  \"nomeUsuario\": \"Carlos Eduardo Pereira\",\n  \"email\": \"carlos.pereira@gmail.com\",\n  \"ranking\": \"A\",\n  \"streak\": 15,\n  \"bio\": \"Entusiasta de energia sustentável e tecnologia.\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,10 +106,22 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "DeleteUser",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/usuarios/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"11"
+							]
+						}
 					},
 					"response": []
 				}
@@ -122,7 +134,18 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/respostas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"respostas"
+							]
+						}
 					},
 					"response": []
 				},
@@ -130,7 +153,19 @@
 					"name": "GetPorId",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/respostas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"respostas",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -256,83 +291,6 @@
 					"response": []
 				},
 				{
-					"name": "PostPergunta",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"idLevel\": 1,\n  \"texto\": \"Qual é o principal efeito das mudanças climáticas?\",\n  \"tipoPergunta\": \"MULTIPLA_ESCOLHA\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/perguntas",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"perguntas"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PutPergunta",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"idLevel\": 1,\n  \"texto\": \"A energia solar vem do Sol?\",\n  \"tipoPergunta\": \"VERDADEIRO_FALSO\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/perguntas/21",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"perguntas",
-								"21"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/perguntas/21",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"perguntas",
-								"21"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "GetPaginado",
 					"request": {
 						"method": "GET",
@@ -401,6 +359,83 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PostPergunta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idLevel\": 1,\n  \"texto\": \"Qual é uma fonte de energia renovável?\",\n  \"tipoPergunta\": \"MULTIPLA_ESCOLHA\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/perguntas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"perguntas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutPergunta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idLevel\": 1,\n  \"texto\": \"A energia solar vem do Sol?\",\n  \"tipoPergunta\": \"VERDADEIRO_FALSO\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/perguntas/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"perguntas",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePergunta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/perguntas/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"perguntas",
+								"11"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -432,7 +467,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/opcoes/1/1",
+							"raw": "http://localhost:8080/opcoes/2/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -440,86 +475,7 @@
 							"port": "8080",
 							"path": [
 								"opcoes",
-								"1",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PostOpcoes",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"idPergunta\": 1,\n    \"idOpcao\": 5,\n    \"texto\": \"Energia Geotérmica\",\n    \"correta\": true\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/opcoes",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"opcoes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PutOpcoes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"idPergunta\": 1,\n    \"idOpcao\": 5,\n    \"texto\": \"Energia Geotérmica Atualizada\",\n    \"correta\": false\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/opcoes/5/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"opcoes",
-								"5",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteOpcoes",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/opcoes/5/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"opcoes",
-								"5",
+								"2",
 								"1"
 							]
 						}
@@ -557,6 +513,85 @@
 									"key": "sort",
 									"value": "id.idOpcao,desc"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostOpcoes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": {\n        \"idOpcao\": 4,\n        \"idPergunta\": 2\n    },\n    \"texto\": \"Energia Geotérmica\",\n    \"correta\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/opcoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"opcoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutOpcoes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": {\n        \"idOpcao\": 4,\n        \"idPergunta\": 2\n    },\n    \"texto\": \"Energia Geotérmica Atualizada\",\n    \"correta\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/opcoes/4/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"opcoes",
+								"4",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOpcoes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/opcoes/4/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"opcoes",
+								"4",
+								"2"
 							]
 						}
 					},
@@ -607,6 +642,40 @@
 					"response": []
 				},
 				{
+					"name": "GetPaginado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/levels/paginados?page=0&size=5&sort=idLevel,asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"levels",
+								"paginados"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "idLevel,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "PostLevel",
 					"request": {
 						"method": "POST",
@@ -649,7 +718,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/levels/21",
+							"raw": "http://localhost:8080/levels/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -657,7 +726,7 @@
 							"port": "8080",
 							"path": [
 								"levels",
-								"21"
+								"11"
 							]
 						}
 					},
@@ -669,7 +738,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/levels/21",
+							"raw": "http://localhost:8080/levels/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -677,41 +746,7 @@
 							"port": "8080",
 							"path": [
 								"levels",
-								"21"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetPaginado",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/levels/paginados?page=0&size=5&sort=idLevel,asc",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"levels",
-								"paginados"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "size",
-									"value": "5"
-								},
-								{
-									"key": "sort",
-									"value": "idLevel,asc"
-								}
+								"11"
 							]
 						}
 					},
