@@ -209,3 +209,7 @@ Disponibilizamos dois vídeos no YouTube demonstrando nossa solução:
 2. **Vídeo Pitch**  
    Um vídeo de apresentação com duração de até 3 minutos, destacando os pontos fortes e o impacto do projeto:  
    [Assista aqui](https://youtu.be/2831rhYpYQ0?si=T2Waxls__MBjiVh9)
+
+3. **Vídeo Deploy**  
+   Um vídeo demonstrando o deploy da aplicação no Azure:  
+   [Assista aqui](https://youtu.be/Zy_C5ZDuyLw?si=gju3WlXNxgGvj3X_)
