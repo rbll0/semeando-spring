@@ -204,8 +204,8 @@ Disponibilizamos dois vídeos no YouTube demonstrando nossa solução:
 
 1. **Vídeo Demonstrativo (Funcionamento do Sistema)**  
    Um vídeo explicativo com duração máxima de 10 minutos, demonstrando o funcionamento do sistema e suas principais funcionalidades:  
-   [Assista aqui](https://youtu.be/SEU_LINK_VIDEO_DEMONSTRACAO)
+   [Assista aqui](https://youtu.be/GHnYeJumo4I?si=XWzEjtLAFubVTWo5)
 
 2. **Vídeo Pitch**  
    Um vídeo de apresentação com duração de até 3 minutos, destacando os pontos fortes e o impacto do projeto:  
-   [Assista aqui](https://youtu.be/SEU_LINK_VIDEO_PITCH)
+   [Assista aqui](https://youtu.be/2831rhYpYQ0?si=T2Waxls__MBjiVh9)
